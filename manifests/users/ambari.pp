@@ -98,7 +98,7 @@ class iop::users::ambari (
   
   ensure_packages([ 'openssh-server' ])
   
-  create_resources(ssh_authorize_key, $auth_keys, {
+  create_resources(ssh_authorized_key, $auth_keys, {
     ensure => present,
     type   => 'ssh-rsa',
     user   => $iop::users::ambari::username,
