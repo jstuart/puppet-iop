@@ -25,7 +25,7 @@ class iop::yum (
     notify => Exec['import-iop-gpg-key'],
   }
   
-  exec { 'import-io-gpg-key':
+  exec { 'import-iop-gpg-key':
     command     => "rpm --import ${gpg_key_iop}",
     cwd         => '/etc/pki/rpm-gpg',
     path        => '/bin',
