@@ -12,7 +12,7 @@ class iop::ambari::server (
   $iop_utils_repo_uri = $iop::yum::iop_utils_repo_uri  
   file { '/var/lib/ambari-server/resources/stacks/BigInsights/4.0/repos/repoinfo.xml':
     owner   => 'root',
-    group   => 'root,',
+    group   => 'root',
     mode    => '0755',
     content => template("${module_name}/var/lib/ambari-server/resources/stacks/BigInsights/4.0/repos/repoinfo.xml.erb"),
     require => Package['ambari-server'],
