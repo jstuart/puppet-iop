@@ -12,7 +12,7 @@
 #   key: AAAA....
 #
 class iop::users::ambari (
-  $name        = 'ambari',
+  $username    = 'ambari',
   $uid         = '1200',
   $home        = '/home/ambari',
   $shell       = '/bin/bash',
@@ -23,7 +23,7 @@ class iop::users::ambari (
   $purge_ssh_keys = true,
 ) {
   validate_string($name)
-  validate_re($iop::users::ambari::name, $iop::params::user_regex, "Invalid username: \$name='${iop::users::ambari::name}'")
+  validate_re($iop::users::ambari::username, $iop::params::user_regex, "Invalid username: \$name='${iop::users::ambari::username}'")
   
   validate_string($uid)
   validate_re($iop::users::ambari::uid, '^\d+$', "Invalid UID: \$uid='${iop::users::ambari::uid}'")
@@ -46,7 +46,7 @@ class iop::users::ambari (
   
   user { 'ambari':
     ensure         => present,
-    name           => $iop::users::ambari::name,
+    name           => $iop::users::ambari::username,
     uid            => $iop::users::ambari::uid,
     gid            => $iop::groups::ambari::gid,
     comment        => 'IOP - Ambari',
@@ -60,17 +60,17 @@ class iop::users::ambari (
     path    => "${$iop::users::ambari::home}/.ssh",
     ensure  => directory,
     mode    => '0700',
-    owner   => $iop::users::ambari::name,
-    group   => $iop::users::ambari::name,
-    require => User[$iop::users::ambari::name],
+    owner   => $iop::users::ambari::username,
+    group   => $iop::groups::ambari::groupname,
+    require => User[$iop::users::ambari::username],
   }
 
   if $key_mgmt == 'manual' {
     file { 'ambari_ssh_private_key':
       path    => "${iop::users::ambari::home}/.ssh/id_rsa",
       ensure  => file,
-      owner   => $iop::users::ambari::name,
-      group   => $iop::users::ambari::name,
+      owner   => $iop::users::ambari::username,
+      group   => $iop::groups::ambari::groupname,
       mode    => '0600',
       content => $iop::users::ambari::private_key,
       require => File[ambari_ssh],
@@ -79,8 +79,8 @@ class iop::users::ambari (
     file { 'ambari_ssh_public_key':
       path    => "${iop::users::ambari::home}/.ssh/id_rsa.pub",
       ensure  => file,
-      owner   => $iop::users::ambari::name,
-      group   => $iop::users::ambari::name,
+      owner   => $iop::users::ambari::username,
+      group   => $iop::groups::ambari::groupname,
       mode    => '0600',
       content => $iop::users::ambari::public_key,
       require => File[ambari_ssh],
@@ -89,7 +89,7 @@ class iop::users::ambari (
     exec { 'ambari_ssh_keygen':
       command => "ssh-keygen -t rsa -q -f ${iop::users::ambari::home}/.ssh/id_rsa -N ''",
       path    => '/usr/bin',
-      user    => $iop::users::ambari::name,
+      user    => $iop::users::ambari::username,
       creates => "${iop::users::ambari::home}/.ssh/id_rsa",
       require => [Package['openssh-server'], File[ambari_ssh]],
     }
@@ -101,11 +101,11 @@ class iop::users::ambari (
   create_resources(ssh_authorize_keys, $auth_keys, {
     ensure => present,
     type   => 'ssh-rsa',
-    user   => $iop::users::ambari::name,
+    user   => $iop::users::ambari::username,
   })
   
   iop::sudoers { 'ambari_sudo_config':
-    user        => $iop::users::ambari::name,
+    user        => $iop::users::ambari::username,
     no_req_tty  => true,
     as_others   => true,
     no_passwd   => true,
