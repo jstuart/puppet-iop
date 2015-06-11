@@ -3,4 +3,4 @@
 <% if @no_req_tty == true -%>
 Defaults:<%= @username %> !requiretty
 <% end -%>
-<%= @username %> ALL=<%= @as_others == true : '(ALL) ' ? '' %><%= @no_passwd == true : 'NOPASSWD:' ? '' %>ALL
+<%= @username %> ALL=<%= @as_others == true ? '(ALL) ' : '' %><%= @no_passwd == true ? 'NOPASSWD:' : '' %>ALL
