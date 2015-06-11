@@ -1,20 +1,52 @@
 class iop::ambari::server (
   
-) inherits iop::params {
+) {
   require iop::users::ambari
   require iop::yum
   
-  package { 'ambari-server': 
-    require => File[$ambari_repo_file],
+  package { 'ambari-server':
+    ensure  => installed,
+    require => File[$iop::params::ambari_repo_file],
+    notify  => Exec['ambar_server_setup'],
+  }
+  
+  $ambari_user = $iop::users::ambari::username
+  $java_home   = $iop::java_home
+  file { 'ambari_server_config':
+    path => '/etc/ambari-server/conf/ambari-server.properties',
+    owner   => $iop::users::ambari::username,
+    group   => 'root',
+    mode    => '0644',
+    content => template("${module_name}/etc/ambari-server/conf/ambari-server.properties.erb"),
+    require => Package['ambari-server'],
+    notify  => Exec['ambar_server_setup'],
   }
 
   $iop_repo_uri = $iop::yum::iop_repo_uri
   $iop_utils_repo_uri = $iop::yum::iop_utils_repo_uri  
-  file { '/var/lib/ambari-server/resources/stacks/BigInsights/4.0/repos/repoinfo.xml':
+  file { $iop::params::ambari_server_repoinfo:
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
-    content => template("${module_name}/var/lib/ambari-server/resources/stacks/BigInsights/4.0/repos/repoinfo.xml.erb"),
+    content => template($iop::params::ambari_repoinfo_template),
     require => Package['ambari-server'],
+  }
+  
+  exec { 'ambar_server_setup':
+    command     => "service ambari-server setup -s",
+    cwd         => '/root',
+    path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+    user        => 'root',
+    umask       => '022',
+    refreshonly => true,
+    require => File['ambari_server_config'],
+    before  => Service['ambari-server'],
+  }
+  
+  service { 'ambari-server':
+    ensure     => running,
+    enable     => true,
+    hasrestart => true,
+    require    => File['ambari_server_config'],
   }
 }
