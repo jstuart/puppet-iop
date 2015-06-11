@@ -17,12 +17,13 @@ class iop::yum (
   
   # Install the IOP GPG Key
   file { $gpg_key_iop:
-    ensure => file,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
-    source => "puppet:///modules/${module_name}/etc/pki/rpm-gpg/RPM-GPG-KEY-IOP",
-    notify => Exec['import-iop-gpg-key'],
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    #source => "puppet:///modules/${module_name}/etc/pki/rpm-gpg/RPM-GPG-KEY-IOP",
+    content => template("${module_name}/etc/pki/rpm-gpg/RPM-GPG-KEY-IOP"),
+    notify  => Exec['import-iop-gpg-key'],
   }
   
   exec { 'import-iop-gpg-key':
@@ -37,12 +38,13 @@ class iop::yum (
   
   # Install the HDP GPG Key
   file { $gpg_key_hdp:
-    ensure => file,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
-    source => "puppet:///modules/${module_name}/etc/pki/rpm-gpg/RPM-GPG-KEY-HDP",
-    notify => Exec['import-hdp-gpg-key']
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    #source => "puppet:///modules/${module_name}/etc/pki/rpm-gpg/RPM-GPG-KEY-HDP",
+    content => template("${module_name}/etc/pki/rpm-gpg/RPM-GPG-KEY-HDP"),
+    notify  => Exec['import-hdp-gpg-key']
   }
   
   exec { 'import-hdp-gpg-key':
