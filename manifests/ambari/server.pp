@@ -1,6 +1,6 @@
 class iop::ambari::server (
   
-) {
+) inherits iop::params {
   require iop::users::ambari
   require iop::yum
   
