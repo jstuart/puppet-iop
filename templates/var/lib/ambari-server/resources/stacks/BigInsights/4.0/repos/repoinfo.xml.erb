@@ -1,0 +1,14 @@
+<os type="redhat6"> 
+<repo> 
+<baseurl>
+<%= @iop_repo_uri %><%# http://<web.server>/IOP/RHEL6/x86_64/4.0</baseurl> -%> 
+<repoid>IOP-4.0</repoid> 
+<reponame>IOP</reponame> 
+</repo> 
+<repo> 
+<baseurl>
+<%= @iop_utils_repo_uri %><%# http://<web.server>/IOP-UTILS/RHEL6/x86_64/1.0</baseurl> -%>
+<repoid>IOP-UTILS-1.0</repoid> 
+<reponame>IOP-UTILS</reponame> 
+</repo> 
+</os>
