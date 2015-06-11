@@ -73,10 +73,10 @@ define iop::sudoers(
   
   # Allow user to be blank
   if $user != '' {
-    validate_re($user, '^[a-zA-Z][a-zA-Z0-9]*$', "Invalid username: \$user='${user}'")
+    validate_re($user, $iop::params::user_regex, "Invalid username: \$user='${user}'")
     $username = $user
   } else {
-    validate_re($user, '^[a-zA-Z][a-zA-Z0-9]*$', "Invalid username: \$name='${name}'; specify \$user to override")
+    validate_re($user, $iop::params::user_regex, "Invalid username: \$name='${name}'; specify \$user to override")
     $username = $name
   }
   
