@@ -1,0 +1,23 @@
+{
+  "author": "James Stuart",
+  "dependencies": [
+    {
+  	  "name": "puppetlabs/stdlib",
+  	  "version_requirement": ">=4.0.0 <5.0.0"
+    }
+  ],
+  "license": "MIT License",
+  "name": "jstuart-iop",
+  "operatingsystem_support": [
+    {
+      "operatingsystem":"RedHat",
+      "operatingsystemrelease":[ "6.0" ]
+    }
+  ],
+  "project_page": "https://github.com/jstuart/puppet-iop",
+  "requirements": [],
+  "source": "https://github.com/jstuart/puppet-iop",
+  "summary": "Module to manage the deployment of IBM Open Platform with Apache Hadoop.",
+  "tags": ["ibm", "biginsights", "hadoop", "iop"],
+  "version": "0.1.0"
+}

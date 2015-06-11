@@ -1,0 +1,6 @@
+# This file is managed by Puppet (<%= @module_name %>)
+# Sudo config for <%= @username %>
+<% if @no_req_tty == true -%>
+Defaults:<%= @username %> !requiretty
+<% end -%>
+<%= @username %> ALL=<%= @as_others == true : '(ALL) ' ? '' %><%= @no_passwd == true : 'NOPASSWD:' ? '' %>ALL
