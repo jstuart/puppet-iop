@@ -1,6 +1,7 @@
 [BI_AMBARI-1.7-20150327_2315]
 name=ambari-1.7-20150327_2315
-baseurl=<%= ambari_repo_uri %><%# http://ibm-open-platform.ibm.com/repos/Ambari/RHEL6/x86_64/1.7 %>
+baseurl=<%= @ambari_repo_uri %><%# http://ibm-open-platform.ibm.com/repos/Ambari/RHEL6/x86_64/1.7 %>
 enabled=1
-gpgcheck=1
+sslverify=<%= @ssl_verify == true ? '1' : '0' %>
+gpgcheck=<%= @gpg_check == true ? '1' : '0' %>
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-IOP<%# http://ibm-open-platform.ibm.com/repos/Ambari/RHEL6/x86_64/1.7/BI-GPG-KEY.public %>

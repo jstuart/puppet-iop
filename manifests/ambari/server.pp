@@ -13,17 +13,19 @@ class iop::ambari::server (
   $ambari_user = $iop::users::ambari::username
   $java_home   = $iop::java_home
   file { 'ambari_server_config':
-    path => '/etc/ambari-server/conf/ambari-server.properties',
+    path => '/etc/ambari-server/conf/ambari.properties',
     owner   => $iop::users::ambari::username,
     group   => 'root',
     mode    => '0644',
-    content => template("${module_name}/etc/ambari-server/conf/ambari-server.properties.erb"),
+    content => template("${module_name}/etc/ambari-server/conf/ambari.properties.erb"),
     require => Package['ambari-server'],
     notify  => Exec['ambar_server_setup'],
   }
 
   $iop_repo_uri = $iop::yum::iop_repo_uri
   $iop_utils_repo_uri = $iop::yum::iop_utils_repo_uri  
+  $ssl_verify = $iop::yum::ssl_verify
+  $gpg_check = $iop::yum::gpg_check
   file { $iop::params::ambari_server_repoinfo:
     owner   => 'root',
     group   => 'root',

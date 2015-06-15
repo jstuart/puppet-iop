@@ -7,6 +7,9 @@ class iop::yum (
   $ambari_repo_uri     = 'http://ibm-open-platform.ibm.com/repos/Ambari/RHEL6/x86_64/1.7',
   $iop_repo_uri        = 'http://ibm-open-platform.ibm.com/repos/IOP/RHEL6/x86_64/4.0',
   $iop_utils_repo_uri  = 'http://ibm-open-platform.ibm.com/repos/IOP-UTILS/RHEL6/x86_64/1.0',
+  
+  $gpg_check  = true,
+  $ssl_verify = true,
 ) inherits iop::params {
   
   validate_bool($install_iop_package)
@@ -14,6 +17,8 @@ class iop::yum (
   validate_string($ambari_repo_uri)
   validate_string($iop_repo_uri)
   validate_string($iop_utils_repo_uri)
+  validate_bool($gpg_check)
+  validate_bool($ssl_verify)
   
   # Install the IOP GPG Key
   file { $gpg_key_iop:

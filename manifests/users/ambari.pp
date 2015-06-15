@@ -26,7 +26,7 @@ class iop::users::ambari (
   validate_re($iop::users::ambari::username, $iop::params::user_regex, "Invalid username: \$name='${iop::users::ambari::username}'")
   
   validate_string($uid)
-  validate_re($iop::users::ambari::uid, '^\d+$', "Invalid UID: \$uid='${iop::users::ambari::uid}'")
+  validate_re($iop::users::ambari::uid, $iop::params::uid_regex, "Invalid UID: \$uid='${iop::users::ambari::uid}'")
 
   validate_absolute_path($iop::users::ambari::home)
   validate_absolute_path($iop::users::ambari::shell)

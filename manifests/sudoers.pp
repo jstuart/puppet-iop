@@ -76,7 +76,7 @@ define iop::sudoers(
     validate_re($user, $iop::params::user_regex, "Invalid username: \$user='${user}'")
     $username = $user
   } else {
-    validate_re($user, $iop::params::user_regex, "Invalid username: \$name='${name}'; specify \$user to override")
+    validate_re($name, $iop::params::user_regex, "Invalid username: \$name='${name}'; specify \$user to override")
     $username = $name
   }
   
