@@ -22,25 +22,25 @@ class iop::users::ambari (
   $auth_keys   = {},
   $purge_ssh_keys = true,
 ) {
-  validate_string($name)
+  validate_string($iop::users::ambari::username)
   validate_re($iop::users::ambari::username, $iop::params::user_regex, "Invalid username: \$name='${iop::users::ambari::username}'")
   
-  validate_string($uid)
+  validate_string($iop::users::ambari::uid)
   validate_re($iop::users::ambari::uid, $iop::params::uid_regex, "Invalid UID: \$uid='${iop::users::ambari::uid}'")
 
   validate_absolute_path($iop::users::ambari::home)
   validate_absolute_path($iop::users::ambari::shell)
   
-  validate_string($key_mgmt)
-  validate_re($key_mgmt, '^(manual|automatic|none)$')
+  validate_string($iop::users::ambari::key_mgmt)
+  validate_re($iop::users::ambari::key_mgmt, '^(manual|automatic|none)$')
   
   if $key_mgmt == 'manual' {
-    validate_string($private_key)
-    validate_string($public_key)
+    validate_string($iop::users::ambari::private_key)
+    validate_string($iop::users::ambari::public_key)
   }
   
-  validate_hash($auth_keys)
-  validate_bool($purge_ssh_keys)
+  validate_hash($iop::users::ambari::auth_keys)
+  validate_bool($iop::users::ambari::purge_ssh_keys)
   
   require iop::groups::ambari
   
@@ -57,18 +57,18 @@ class iop::users::ambari (
   }
   
   file { 'ambari_ssh':
-    path    => "${$iop::users::ambari::home}/.ssh",
     ensure  => directory,
+    path    => "${iop::users::ambari::home}/.ssh",
     mode    => '0700',
     owner   => $iop::users::ambari::username,
     group   => $iop::groups::ambari::groupname,
     require => User[$iop::users::ambari::username],
   }
 
-  if $key_mgmt == 'manual' {
+  if $iop::users::ambari::key_mgmt == 'manual' {
     file { 'ambari_ssh_private_key':
-      path    => "${iop::users::ambari::home}/.ssh/id_rsa",
       ensure  => file,
+      path    => "${iop::users::ambari::home}/.ssh/id_rsa",
       owner   => $iop::users::ambari::username,
       group   => $iop::groups::ambari::groupname,
       mode    => '0600',
@@ -77,15 +77,15 @@ class iop::users::ambari (
     }
     
     file { 'ambari_ssh_public_key':
-      path    => "${iop::users::ambari::home}/.ssh/id_rsa.pub",
       ensure  => file,
+      path    => "${iop::users::ambari::home}/.ssh/id_rsa.pub",
       owner   => $iop::users::ambari::username,
       group   => $iop::groups::ambari::groupname,
       mode    => '0600',
       content => $iop::users::ambari::public_key,
       require => File[ambari_ssh],
     }
-  } elsif $key_mgmt == 'automatic' {  
+  } elsif $iop::users::ambari::key_mgmt == 'automatic' {
     exec { 'ambari_ssh_keygen':
       command => "ssh-keygen -t rsa -q -f ${iop::users::ambari::home}/.ssh/id_rsa -N ''",
       path    => '/usr/bin',
@@ -98,16 +98,16 @@ class iop::users::ambari (
   
   ensure_packages([ 'openssh-server' ])
   
-  create_resources(ssh_authorized_key, $auth_keys, {
+  create_resources(ssh_authorized_key, $iop::users::ambari::auth_keys, {
     ensure => present,
     type   => 'ssh-rsa',
     user   => $iop::users::ambari::username,
   })
   
   iop::sudoers { 'ambari_sudo_config':
-    user        => $iop::users::ambari::username,
-    no_req_tty  => true,
-    as_others   => true,
-    no_passwd   => true,
+    user       => $iop::users::ambari::username,
+    no_req_tty => true,
+    as_others  => true,
+    no_passwd  => true,
   }
 }

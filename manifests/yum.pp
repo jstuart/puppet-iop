@@ -1,3 +1,4 @@
+# Handle the configuration of the initial YUM stuff
 class iop::yum (
   # IOP RPM installation
   $install_iop_package = false,
@@ -10,18 +11,19 @@ class iop::yum (
   
   $gpg_check  = true,
   $ssl_verify = true,
-) inherits iop::params {
-  
-  validate_bool($install_iop_package)
-  validate_string($iop_install_uri)
-  validate_string($ambari_repo_uri)
-  validate_string($iop_repo_uri)
-  validate_string($iop_utils_repo_uri)
-  validate_bool($gpg_check)
-  validate_bool($ssl_verify)
+) {
+  include iop::params
+
+  validate_bool($iop::yum::install_iop_package)
+  validate_string($iop::yum::iop_install_uri)
+  validate_string($iop::yum::ambari_repo_uri)
+  validate_string($iop::yum::iop_repo_uri)
+  validate_string($iop::yum::iop_utils_repo_uri)
+  validate_bool($iop::yum::gpg_check)
+  validate_bool($iop::yum::ssl_verify)
   
   # Install the IOP GPG Key
-  file { $gpg_key_iop:
+  file { $iop::params::gpg_key_iop:
     ensure  => file,
     owner   => 'root',
     group   => 'root',
@@ -32,17 +34,17 @@ class iop::yum (
   }
   
   exec { 'import-iop-gpg-key':
-    command     => "rpm --import ${gpg_key_iop}",
+    command     => "rpm --import ${iop::params::gpg_key_iop}",
     cwd         => '/etc/pki/rpm-gpg',
     path        => '/bin',
     user        => 'root',
     umask       => '022',
     refreshonly => true,
-    require     => File[$gpg_key_iop],
+    require     => File[$iop::params::gpg_key_iop],
   }
   
   # Install the HDP GPG Key
-  file { $gpg_key_hdp:
+  file { $iop::params::gpg_key_hdp:
     ensure  => file,
     owner   => 'root',
     group   => 'root',
@@ -53,26 +55,26 @@ class iop::yum (
   }
   
   exec { 'import-hdp-gpg-key':
-    command     => "rpm --import ${gpg_key_hdp}",
+    command     => "rpm --import ${iop::params::gpg_key_hdp}",
     cwd         => '/etc/pki/rpm-gpg',
     path        => '/bin',
     user        => 'root',
     umask       => '022',
     refreshonly => true,
-    require     => File[$gpg_key_hdp],
+    require     => File[$iop::params::gpg_key_hdp],
   }
   
-  if true == $install_iop_package {
+  if true == $iop::yum::install_iop_package {
     fail ("TODO: This doesn't work yet")
-    package { $iop_install_uri:
+    package { $iop::yum::iop_install_uri:
       ensure => present,
       #...
-      before => File[$ambari_repo_file],
+      before => File[$iop::params::ambari_repo_file],
     }
   }
   
   # RPM is unsigned so there is no dependency on GPG keys needed here
-  file { $ambari_repo_file:
+  file { $iop::params::ambari_repo_file:
     ensure => file,
     owner  => 'root',
     group  => 'root',

@@ -1,11 +1,10 @@
-class iop::ambari::agent (
-  
-) inherits iop::params {
+class iop::ambari::agent {
+  include iop::params
   require iop::users::ambari
   require iop::yum
   
   package { 'ambari-agent': 
-    require => File[$ambari_repo_file],
+    require => File[$iop::params::ambari_repo_file],
   }
   
   $ambari_server_fqdn = $iop::ambari_server_fqdn
@@ -19,12 +18,14 @@ class iop::ambari::agent (
   }
     
   $iop_repo_uri = $iop::yum::iop_repo_uri
-  $iop_utils_repo_uri = $iop::yum::iop_utils_repo_uri  
-  file { $ambari_agent_repoinfo:
+  $iop_utils_repo_uri = $iop::yum::iop_utils_repo_uri
+  $ssl_verify = $iop::yum::ssl_verify
+  $gpg_check = $iop::yum::gpg_check    
+  file { $iop::params::ambari_agent_repoinfo:
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
-    content => template($ambari_repoinfo_template),
+    content => template($iop::params::ambari_repoinfo_template),
     require => Package['ambari-agent'],
   }
   

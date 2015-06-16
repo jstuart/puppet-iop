@@ -2,10 +2,12 @@ class iop::groups::ambari (
   $groupname = 'ambari',
   $gid       = '1200',
 ) {
-  validate_string($name)
+  include iop::params
+  
+  validate_string($iop::groups::ambari::groupname)
   validate_re($iop::groups::ambari::groupname, $iop::params::user_regex, "Invalid username: \$name='${iop::groups::ambari::groupname}'")
   
-  validate_string($gid)
+  validate_string($iop::groups::ambari::gid)
   validate_re($iop::groups::ambari::gid, $iop::params::uid_regex, "Invalid GID: \$gid='${iop::groups::ambari::gid}'")
   
   group { 'ambari':

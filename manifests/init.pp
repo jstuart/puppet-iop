@@ -29,22 +29,22 @@ class iop (
   $java_packages      = ['java-1.7.0-openjdk-devel'],
   $java_home          = '/usr/lib/jvm/java-1.7.0',
 ) {
-  validate_bool($ambari_server)
-  validate_bool($ambari_agent)
-  validate_string($ambari_server_fqdn)  
-  if $ambari_agent == true {
-    validate_re($ambari_server_fqdn, '^.+$', 'The parameter $ambari_server_fqdn is required when $ambari_agent is true.') 
+  validate_bool($iop::ambari_server)
+  validate_bool($iop::ambari_agent)
+  validate_string($iop::ambari_server_fqdn)
+  if $iop::ambari_agent == true {
+    validate_re($iop::ambari_server_fqdn, '^.+$', 'The parameter $ambari_server_fqdn is required when $ambari_agent is true.')
   }
 
-  validate_bool($install_java)
-  if $install_java == true {
-    validate_array($java_packages)
-    if size($java_packages) < 1 {
+  validate_bool($iop::install_java)
+  if $iop::install_java == true {
+    validate_array($iop::java_packages)
+    if size($iop::java_packages) < 1 {
       fail('The parameter $java_packages must have at least one element when $install_java is true.')
     }
   }
   
-  validate_absolute_path($java_home)
+  validate_absolute_path($iop::java_home)
 
   # Use Open JDK
   # ensure_packages(['java-1.7.0-openjdk', 'java-1.7.0-openjdk-devel'])
@@ -53,19 +53,19 @@ class iop (
   
   
   
-  if $install_java == true {
+  if $iop::install_java == true {
     ensure_packages($java_packages)
   }
 
-  if $ambari_server == true or $ambari_agent == true {
+  if $iop::ambari_server == true or $iop::ambari_agent == true {
     include iop::yum
     include iop::groups::ambari
     include iop::users::ambari
   }
-  if $ambari_server == true {
+  if $iop::ambari_server == true {
     include iop::ambari::server
   }
-  if $ambari_agent == true {
+  if $iop::ambari_agent == true {
     include iop::ambari::agent
   }
 }

@@ -1,3 +1,4 @@
+# Common parameters for the IOP module
 class iop::params {
   
   # Yum related params
