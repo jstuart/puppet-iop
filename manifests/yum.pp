@@ -75,10 +75,10 @@ class iop::yum (
   
   # RPM is unsigned so there is no dependency on GPG keys needed here
   file { $iop::params::ambari_repo_file:
-    ensure => file,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
     content => template("${module_name}/etc/yum.repos.d/ambari.repo.erb"),
   }
   
