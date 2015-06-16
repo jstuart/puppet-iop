@@ -1,3 +1,4 @@
+# Ambari User
 #
 # $auth_keys must be a hash with name as the top level key,
 # with a sub key called 'key' that contains the RSA public

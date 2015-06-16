@@ -1,3 +1,4 @@
+# Ambari Server setup
 class iop::ambari::server {
   include iop::params
   require iop::users::ambari

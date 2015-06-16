@@ -1,3 +1,4 @@
+# Ambari Group
 class iop::groups::ambari (
   $groupname = 'ambari',
   $gid       = '1200',

@@ -1,3 +1,4 @@
+# Ambari Agent setup
 class iop::ambari::agent {
   include iop::params
   require iop::users::ambari
