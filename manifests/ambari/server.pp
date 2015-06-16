@@ -49,6 +49,8 @@ class iop::ambari::server {
     ensure     => running,
     enable     => true,
     hasrestart => true,
+    # ambari-server service doesn't return LSB exit codes, even though ambari-agent does
+    status     => '/sbin/service ambari-server status | /bin/grep "^Ambari Server running$" >/dev/null',
     require    => File['ambari_server_config'],
   }
 }
