@@ -101,7 +101,7 @@ class iop::users::ambari (
   
   create_resources(ssh_authorized_key, $iop::users::ambari::auth_keys, {
     ensure => present,
-    type   => 'ssh-rsa',
+    'type' => 'ssh-rsa',
     user   => $iop::users::ambari::username,
   })
   
