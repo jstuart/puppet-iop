@@ -10,15 +10,32 @@ class iop::ambari::server {
     notify  => Exec['ambar_server_setup'],
   }
   
+  # This is kind of a hack, but since we only care about two of the properties in the configuration
+  # and it gets rewritten and reordered all the time, we'll just check for our values and replace the
+  # file if they're not there.  This approach is leaves much to be desired as all we're really trying
+  # to do is run some sane defaults before running setup for the first time.  It seems like we could
+  # very easily hit a scenario where we'd blow away changes that we'd intentionally made. 
   $ambari_user = $iop::users::ambari::username
   $java_home   = $iop::java_home
+  $check_command = "grep '^ambari-server=${ambari_user}\$' '${iop::params::ambari_server_properties}' >/dev/null 2>&1 && grep '^java.home=${java_home}\$' '${iop::params::ambari_server_properties}' >/dev/null 2>&1"
+  
+  exec { 'ambari_server_config_rm':
+    path    => '/bin',
+    user    => 'root',
+    command => "rm -f '${iop::params::ambari_server_properties}'",
+    unless  => $check_command,
+    require => Package['ambari-server'],
+  }
+  
+  # Replace = false, so run only when exec has removed the file.
   file { 'ambari_server_config':
-    path    => '/etc/ambari-server/conf/ambari.properties',
+    path    => $iop::params::ambari_server_properties,
     owner   => $iop::users::ambari::username,
     group   => 'root',
     mode    => '0644',
     content => template("${module_name}/etc/ambari-server/conf/ambari.properties.erb"),
-    require => Package['ambari-server'],
+    require => [Package['ambari-server'], Exec['ambari_server_config_rm']],
+    replace => 'no',
     notify  => Exec['ambar_server_setup'],
   }
 

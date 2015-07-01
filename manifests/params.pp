@@ -12,6 +12,7 @@ class iop::params {
   $ambari_repoinfo_template_end = "${module_name}/var/lib/ambari-server/resources/stacks/BigInsights/4.0/repos/repoinfo.xml.end.erb"
   $ambari_server_repoinfo = '/var/lib/ambari-server/resources/stacks/BigInsights/4.0/repos/repoinfo.xml'
   $ambari_agent_repoinfo = '/var/lib/ambari-agent/cache/stacks/BigInsights/4.0/repos/repoinfo.xml'
+  $ambari_server_properties = '/etc/ambari-server/conf/ambari.properties'
   
   # Constants
   $user_regex = '^[a-zA-Z][a-zA-Z0-9_-]*$'
