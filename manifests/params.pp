@@ -17,6 +17,6 @@ class iop::params {
   # Constants
   $user_regex = '^[a-zA-Z][a-zA-Z0-9_-]*$'
   $uid_regex  = '^\d+$'
-  $repo_name_regex = '^[A-Za-z0-9_-.]+$'
+  $repo_name_regex = '^[A-Za-z0-9-_.]+$'
   $repo_order_regex = '^[1-8][0-9]$'
 }
