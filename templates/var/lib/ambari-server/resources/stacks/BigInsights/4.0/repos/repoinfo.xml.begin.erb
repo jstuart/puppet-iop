@@ -15,24 +15,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
+<!-- This file is managed by Puppet: <%= @module_name %> -->
 <reposinfo>
   <!-- TODO define latest json file for iop 
   <latest>http://s3.amazonaws.com/dev.hortonworks.com/HDP/hdp_urlinfo.json</latest>
   -->
   <os type="redhat6">
-    <repo>
-      <baseurl><%= @iop_repo_uri %><%# http://ibm-open-platform.ibm.com/repos/IOP/RHEL6/x86_64/4.0 %></baseurl>
-      <repoid>IOP-4.0</repoid>
-      <reponame>IOP</reponame>
-      <gpgcheck><%= @gpg_check == true ? '1' : '0' %></gpgcheck>
-      <sslverify><%= @ssl_verify == true ? '1' : '0' %></sslverify>
-    </repo>
-    <repo>
-      <baseurl><%= @iop_utils_repo_uri %><%# http://ibm-open-platform.ibm.com/repos/IOP-UTILS/RHEL6/x86_64/1.0 %></baseurl>
-      <repoid>IOP-UTILS-1.0</repoid>
-      <reponame>IOP-UTILS</reponame>
-      <gpgcheck><%= @gpg_check == true ? '1' : '0' %></gpgcheck>
-      <sslverify><%= @ssl_verify == true ? '1' : '0' %></sslverify>
-    </repo>
-  </os>
-</reposinfo>

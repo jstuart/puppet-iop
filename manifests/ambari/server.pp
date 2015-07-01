@@ -22,16 +22,24 @@ class iop::ambari::server {
     notify  => Exec['ambar_server_setup'],
   }
 
-  $iop_repo_uri = $iop::yum::iop_repo_uri
-  $iop_utils_repo_uri = $iop::yum::iop_utils_repo_uri
-  $ssl_verify = $iop::yum::ssl_verify
-  $gpg_check = $iop::yum::gpg_check
-  file { $iop::params::ambari_server_repoinfo:
-    owner   => 'root',
+
+  concat { $iop::params::ambari_server_repoinfo:
+    owner   => $iop::users::ambari::username,
     group   => 'root',
     mode    => '0755',
-    content => template($iop::params::ambari_repoinfo_template),
     require => Package['ambari-server'],
+  }
+  
+  concat::fragment { 'iop-server-prefix-repo':
+    target  => $iop::params::ambari_server_repoinfo,
+    content => template($iop::params::ambari_repoinfo_template_begin),
+    order   => '00',
+  }
+
+  concat::fragment { 'iop-server-suffix-repo':
+    target  => $iop::params::ambari_server_repoinfo,
+    content => template($iop::params::ambari_repoinfo_template_end),
+    order   => '99',
   }
   
   exec { 'ambar_server_setup':

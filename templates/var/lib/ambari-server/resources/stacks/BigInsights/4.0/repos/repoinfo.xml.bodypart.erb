@@ -1,0 +1,8 @@
+    <repo>
+      <!-- This repo is managed by Puppet: <%= @module_name %> -->
+      <baseurl><%= @baseurl %></baseurl>
+      <repoid><%= @real_repoid %></repoid>
+      <reponame><%= @real_reponame %></reponame>
+      <gpgcheck><%= @gpgcheck == true ? '1' : '0' %></gpgcheck>
+      <sslverify><%= @sslverify == true ? '1' : '0' %></sslverify>
+    </repo>

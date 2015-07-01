@@ -17,17 +17,25 @@ class iop::ambari::agent {
     content => template("${module_name}/etc/ambari-agent/conf/ambari-agent.ini.erb"),
     require => Package['ambari-agent'],
   }
-    
-  $iop_repo_uri = $iop::yum::iop_repo_uri
-  $iop_utils_repo_uri = $iop::yum::iop_utils_repo_uri
-  $ssl_verify = $iop::yum::ssl_verify
-  $gpg_check = $iop::yum::gpg_check
-  file { $iop::params::ambari_agent_repoinfo:
+
+  concat { $iop::params::ambari_agent_repoinfo:
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
     content => template($iop::params::ambari_repoinfo_template),
     require => Package['ambari-agent'],
+  }
+  
+  concat::fragment { 'iop-agent-prefix-repo':
+    target  => $iop::params::ambari_agent_repoinfo,
+    content => template($iop::params::ambari_repoinfo_template_begin),
+    order   => '00',
+  }
+
+  concat::fragment { 'iop-agent-suffix-repo':
+    target  => $iop::params::ambari_agent_repoinfo,
+    content => template($iop::params::ambari_repoinfo_template_end),
+    order   => '99',
   }
   
   service { 'ambari-agent':
