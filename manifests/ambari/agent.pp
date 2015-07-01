@@ -22,7 +22,6 @@ class iop::ambari::agent {
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
-    content => template($iop::params::ambari_repoinfo_template),
     require => Package['ambari-agent'],
   }
   
