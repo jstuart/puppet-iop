@@ -7,7 +7,7 @@ class iop::ambari::server {
   package { 'ambari-server':
     ensure  => installed,
     require => File[$iop::params::ambari_repo_file],
-    notify  => Exec['ambar_server_setup'],
+    notify  => Exec['ambari_server_setup'],
   }
   
   # This is kind of a hack, but since we only care about two of the properties in the configuration
@@ -25,6 +25,7 @@ class iop::ambari::server {
     command => "rm -f '${iop::params::ambari_server_properties}'",
     unless  => $check_command,
     require => Package['ambari-server'],
+    before  => File['ambari_server_config'],
   }
   
   # Replace = false, so run only when exec has removed the file.
@@ -33,12 +34,12 @@ class iop::ambari::server {
     owner   => $iop::users::ambari::username,
     group   => 'root',
     mode    => '0644',
+    replace => 'no',
     content => template("${module_name}/etc/ambari-server/conf/ambari.properties.erb"),
     require => [Package['ambari-server'], Exec['ambari_server_config_rm']],
-    replace => 'no',
+    before  => Exec['ambar_server_setup'],
     notify  => Exec['ambar_server_setup'],
   }
-
 
   concat { $iop::params::ambari_server_repoinfo:
     owner   => $iop::users::ambari::username,
@@ -66,7 +67,7 @@ class iop::ambari::server {
     user        => 'root',
     umask       => '022',
     refreshonly => true,
-    require     => File['ambari_server_config'],
+    require     => Package['ambari-server'],
     before      => Service['ambari-server'],
   }
   
