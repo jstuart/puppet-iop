@@ -61,6 +61,26 @@ class iop (
     include iop::yum
     include iop::groups::ambari
     include iop::users::ambari
+    
+    # Add the IOP repo to Ambari
+    iop::ambari::repo { 'iop':
+      repoid    => 'IOP-4.0',
+      reponame  => 'IOP',
+      baseurl   => $iop::yum::iop_repo_uri,
+      gpgcheck  => $iop::yum::gpg_check,
+      sslverify => $iop::yum::ssl_verify,
+      order     => '10'
+    }
+    
+    # Add the IOP-UTIL repo to Ambari
+    iop::ambari::repo { 'iop-util':
+      repoid    => 'IOP-UTILS-1.0',
+      reponame  => 'IOP-UTILS',
+      baseurl   => $iop::yum::iop_repo_uri,
+      gpgcheck  => $iop::yum::gpg_check,
+      sslverify => $iop::yum::ssl_verify,
+      order     => '11'
+    }
   }
   if $iop::ambari_server == true {
     include iop::ambari::server
