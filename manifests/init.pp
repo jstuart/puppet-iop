@@ -76,7 +76,7 @@ class iop (
     iop::ambari::repo { 'iop-util':
       repoid    => 'IOP-UTILS-1.0',
       reponame  => 'IOP-UTILS',
-      baseurl   => $iop::yum::iop_repo_uri,
+      baseurl   => $iop::yum::iop_utils_repo_uri,
       gpgcheck  => $iop::yum::gpg_check,
       sslverify => $iop::yum::ssl_verify,
       order     => '11'
