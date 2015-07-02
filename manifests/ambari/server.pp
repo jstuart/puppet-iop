@@ -37,8 +37,8 @@ class iop::ambari::server {
     replace => 'no',
     content => template("${module_name}/etc/ambari-server/conf/ambari.properties.erb"),
     require => [Package['ambari-server'], Exec['ambari_server_config_rm']],
-    before  => Exec['ambar_server_setup'],
-    notify  => Exec['ambar_server_setup'],
+    before  => Exec['ambari_server_setup'],
+    notify  => Exec['ambari_server_setup'],
   }
 
   concat { $iop::params::ambari_server_repoinfo:
@@ -60,7 +60,7 @@ class iop::ambari::server {
     order   => '99',
   }
   
-  exec { 'ambar_server_setup':
+  exec { 'ambari_server_setup':
     command     => 'service ambari-server setup -s',
     cwd         => '/root',
     path        => '/bin:/sbin:/usr/bin:/usr/sbin',
