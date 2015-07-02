@@ -17,7 +17,7 @@ class iop::ambari::server {
   # very easily hit a scenario where we'd blow away changes that we'd intentionally made. 
   $ambari_user = $iop::users::ambari::username
   $java_home   = $iop::java_home
-  $check_command = "grep '^ambari-server=${ambari_user}\$' '${iop::params::ambari_server_properties}' >/dev/null 2>&1 && grep '^java.home=${java_home}\$' '${iop::params::ambari_server_properties}' >/dev/null 2>&1"
+  $check_command = "grep '^ambari-server.user=${ambari_user}\$' '${iop::params::ambari_server_properties}' >/dev/null 2>&1 && grep '^java.home=${java_home}\$' '${iop::params::ambari_server_properties}' >/dev/null 2>&1"
   
   exec { 'ambari_server_config_rm':
     path    => '/bin',
