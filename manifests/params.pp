@@ -14,6 +14,10 @@ class iop::params {
   $ambari_agent_repoinfo = '/var/lib/ambari-agent/cache/stacks/BigInsights/4.0/repos/repoinfo.xml'
   $ambari_server_properties = '/etc/ambari-server/conf/ambari.properties'
   
+  # Names
+  $ambari_server_package = 'ambari-server'
+  $ambari_server_service = 'ambari-server'
+  
   # Constants
   $user_regex = '^[a-zA-Z][a-zA-Z0-9_-]*$'
   $uid_regex  = '^\d+$'

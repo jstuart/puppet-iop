@@ -4,7 +4,7 @@ class iop::ambari::server {
   require iop::users::ambari
   require iop::yum
   
-  package { 'ambari-server':
+  package { $iop::params::ambari_server_package:
     ensure  => installed,
     require => File[$iop::params::ambari_repo_file],
     notify  => Exec['ambari_server_setup'],
@@ -24,7 +24,7 @@ class iop::ambari::server {
     user    => 'root',
     command => "rm -f '${iop::params::ambari_server_properties}'",
     unless  => $check_command,
-    require => Package['ambari-server'],
+    require => Package[$iop::params::ambari_server_package],
     before  => File['ambari_server_config'],
   }
   
@@ -36,7 +36,7 @@ class iop::ambari::server {
     mode    => '0644',
     replace => 'no',
     content => template("${module_name}/etc/ambari-server/conf/ambari.properties.erb"),
-    require => [Package['ambari-server'], Exec['ambari_server_config_rm']],
+    require => [Package[$iop::params::ambari_server_package], Exec['ambari_server_config_rm']],
     before  => Exec['ambari_server_setup'],
     notify  => Exec['ambari_server_setup'],
   }
@@ -45,7 +45,7 @@ class iop::ambari::server {
     owner   => $iop::users::ambari::username,
     group   => 'root',
     mode    => '0755',
-    require => Package['ambari-server'],
+    require => Package[$iop::params::ambari_server_package],
   }
   
   concat::fragment { 'iop-server-prefix-repo':
@@ -67,11 +67,11 @@ class iop::ambari::server {
     user        => 'root',
     umask       => '022',
     refreshonly => true,
-    require     => Package['ambari-server'],
-    before      => Service['ambari-server'],
+    require     => Package[$iop::params::ambari_server_package],
+    before      => Service[$iop::params::ambari_server_service],
   }
   
-  service { 'ambari-server':
+  service { $iop::params::ambari_server_service:
     ensure     => running,
     enable     => true,
     hasrestart => true,
