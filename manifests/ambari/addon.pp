@@ -52,8 +52,8 @@ define iop::ambari::addon (
   validate_string($ensure)
 
   package { "${name}-package":
-    name     => $package_name,
     ensure   => $ensure,
+    name     => $package_name,
     provider => 'rpm',
     source   => $rpm_uri,
     require  => Package[$iop::params::ambari_server_package],
