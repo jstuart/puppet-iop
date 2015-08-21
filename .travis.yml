@@ -2,6 +2,7 @@
 branches:
   only:
     - master
+    - iop-4.1
 language: ruby
 before_install: 'bundle install'
 bundler_args: --without development
