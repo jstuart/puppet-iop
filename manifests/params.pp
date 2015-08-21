@@ -10,8 +10,10 @@ class iop::params {
   $ambari_repoinfo_template_begin = "${module_name}/var/lib/ambari-server/resources/stacks/BigInsights/4.0/repos/repoinfo.xml.begin.erb"
   $ambari_repoinfo_template_repo = "${module_name}/var/lib/ambari-server/resources/stacks/BigInsights/4.0/repos/repoinfo.xml.bodypart.erb"
   $ambari_repoinfo_template_end = "${module_name}/var/lib/ambari-server/resources/stacks/BigInsights/4.0/repos/repoinfo.xml.end.erb"
-  $ambari_server_repoinfo = '/var/lib/ambari-server/resources/stacks/BigInsights/4.0/repos/repoinfo.xml'
-  $ambari_agent_repoinfo = '/var/lib/ambari-agent/cache/stacks/BigInsights/4.0/repos/repoinfo.xml'
+  $ambari_server_repoinfo_4_0 = '/var/lib/ambari-server/resources/stacks/BigInsights/4.0/repos/repoinfo.xml'
+  $ambari_server_repoinfo_4_1 = '/var/lib/ambari-server/resources/stacks/BigInsights/4.1/repos/repoinfo.xml'
+  $ambari_agent_repoinfo_4_0 = '/var/lib/ambari-agent/cache/stacks/BigInsights/4.0/repos/repoinfo.xml'
+  $ambari_agent_repoinfo_4_1 = '/var/lib/ambari-agent/cache/stacks/BigInsights/4.1/repos/repoinfo.xml'
   $ambari_server_properties = '/etc/ambari-server/conf/ambari.properties'
   
   # Names

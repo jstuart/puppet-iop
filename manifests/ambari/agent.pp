@@ -18,21 +18,40 @@ class iop::ambari::agent {
     require => Package['ambari-agent'],
   }
 
-  concat { $iop::params::ambari_agent_repoinfo:
+  concat { $iop::params::ambari_agent_repoinfo_4_0:
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
     require => Package['ambari-agent'],
   }
   
-  concat::fragment { 'iop-agent-prefix-repo':
-    target  => $iop::params::ambari_agent_repoinfo,
+  concat::fragment { 'iop-agent-prefix-repo-4_0':
+    target  => $iop::params::ambari_agent_repoinfo_4_0,
     content => template($iop::params::ambari_repoinfo_template_begin),
     order   => '00',
   }
 
-  concat::fragment { 'iop-agent-suffix-repo':
-    target  => $iop::params::ambari_agent_repoinfo,
+  concat::fragment { 'iop-agent-suffix-repo-4_0':
+    target  => $iop::params::ambari_agent_repoinfo_4_0,
+    content => template($iop::params::ambari_repoinfo_template_end),
+    order   => '99',
+  }
+  
+  concat { $iop::params::ambari_agent_repoinfo_4_1:
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    require => Package['ambari-agent'],
+  }
+  
+  concat::fragment { 'iop-agent-prefix-repo-4_1':
+    target  => $iop::params::ambari_agent_repoinfo_4_1,
+    content => template($iop::params::ambari_repoinfo_template_begin),
+    order   => '00',
+  }
+
+  concat::fragment { 'iop-agent-suffix-repo-4_1':
+    target  => $iop::params::ambari_agent_repoinfo_4_1,
     content => template($iop::params::ambari_repoinfo_template_end),
     order   => '99',
   }

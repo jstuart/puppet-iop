@@ -21,7 +21,7 @@
   "project_page": "https://github.com/jstuart/puppet-iop",
   "requirements": [],
   "source": "https://github.com/jstuart/puppet-iop",
-  "summary": "Module to manage the deployment of IBM Open Platform with Apache Hadoop.",
+  "summary": "Module to manage the deployment of IBM Open Platform with Apache Hadoop 4.1.",
   "tags": ["ibm", "biginsights", "hadoop", "iop"],
-  "version": "0.1.0"
+  "version": "0.2.0"
 }

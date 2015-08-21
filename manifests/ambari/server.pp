@@ -41,21 +41,40 @@ class iop::ambari::server {
     notify  => Exec['ambari_server_setup'],
   }
 
-  concat { $iop::params::ambari_server_repoinfo:
+  concat { $iop::params::ambari_server_repoinfo_4_0:
     owner   => $iop::users::ambari::username,
     group   => 'root',
     mode    => '0755',
     require => Package[$iop::params::ambari_server_package],
   }
   
-  concat::fragment { 'iop-server-prefix-repo':
-    target  => $iop::params::ambari_server_repoinfo,
+  concat::fragment { 'iop-server-prefix-repo-4_0':
+    target  => $iop::params::ambari_server_repoinfo_4_0,
     content => template($iop::params::ambari_repoinfo_template_begin),
     order   => '00',
   }
 
-  concat::fragment { 'iop-server-suffix-repo':
-    target  => $iop::params::ambari_server_repoinfo,
+  concat::fragment { 'iop-server-suffix-repo-4_0':
+    target  => $iop::params::ambari_server_repoinfo_4_0,
+    content => template($iop::params::ambari_repoinfo_template_end),
+    order   => '99',
+  }
+  
+  concat { $iop::params::ambari_server_repoinfo_4_1:
+    owner   => $iop::users::ambari::username,
+    group   => 'root',
+    mode    => '0755',
+    require => Package[$iop::params::ambari_server_package],
+  }
+  
+  concat::fragment { 'iop-server-prefix-repo-4_1':
+    target  => $iop::params::ambari_server_repoinfo_4_1,
+    content => template($iop::params::ambari_repoinfo_template_begin),
+    order   => '00',
+  }
+
+  concat::fragment { 'iop-server-suffix-repo-4_1':
+    target  => $iop::params::ambari_server_repoinfo_4_1,
     content => template($iop::params::ambari_repoinfo_template_end),
     order   => '99',
   }
