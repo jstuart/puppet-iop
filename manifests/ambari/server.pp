@@ -50,13 +50,13 @@ class iop::ambari::server {
   
   concat::fragment { 'iop-server-prefix-repo-4_0':
     target  => $iop::params::ambari_server_repoinfo_4_0,
-    content => template($iop::params::ambari_repoinfo_template_begin),
+    content => template($iop::params::ambari_repoinfo_4_0_template_begin),
     order   => '00',
   }
 
   concat::fragment { 'iop-server-suffix-repo-4_0':
     target  => $iop::params::ambari_server_repoinfo_4_0,
-    content => template($iop::params::ambari_repoinfo_template_end),
+    content => template($iop::params::ambari_repoinfo_4_0_template_end),
     order   => '99',
   }
   
@@ -69,13 +69,13 @@ class iop::ambari::server {
   
   concat::fragment { 'iop-server-prefix-repo-4_1':
     target  => $iop::params::ambari_server_repoinfo_4_1,
-    content => template($iop::params::ambari_repoinfo_template_begin),
+    content => template($iop::params::ambari_repoinfo_4_1_template_begin),
     order   => '00',
   }
 
   concat::fragment { 'iop-server-suffix-repo-4_1':
     target  => $iop::params::ambari_server_repoinfo_4_1,
-    content => template($iop::params::ambari_repoinfo_template_end),
+    content => template($iop::params::ambari_repoinfo_4_1_template_end),
     order   => '99',
   }
   

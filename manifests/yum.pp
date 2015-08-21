@@ -5,9 +5,11 @@ class iop::yum (
   $iop_install_uri     = '',
 
   # Repository addresses
-  $ambari_repo_uri     = 'http://ibm-open-platform.ibm.com/repos/Ambari/RHEL6/x86_64/1.7',
-  $iop_repo_uri        = 'http://ibm-open-platform.ibm.com/repos/IOP/RHEL6/x86_64/4.0',
-  $iop_utils_repo_uri  = 'http://ibm-open-platform.ibm.com/repos/IOP-UTILS/RHEL6/x86_64/1.0',
+  $ambari_repo_uri         = 'http://ibm-open-platform.ibm.com/repos/Ambari/RHEL6/x86_64/2.1',
+  $iop_4_0_repo_uri        = 'http://ibm-open-platform.ibm.com/repos/IOP/RHEL6/x86_64/4.0',
+  $iop_4_1_repo_uri        = 'http://ibm-open-platform.ibm.com/repos/IOP/RHEL6/x86_64/4.1',
+  $iop_utils_1_0_repo_uri  = 'http://ibm-open-platform.ibm.com/repos/IOP-UTILS/RHEL6/x86_64/1.0',
+  $iop_utils_1_1_repo_uri  = 'http://ibm-open-platform.ibm.com/repos/IOP-UTILS/RHEL6/x86_64/1.1',
   
   $gpg_check  = true,
   $ssl_verify = true,
@@ -17,8 +19,10 @@ class iop::yum (
   validate_bool($iop::yum::install_iop_package)
   validate_string($iop::yum::iop_install_uri)
   validate_string($iop::yum::ambari_repo_uri)
-  validate_string($iop::yum::iop_repo_uri)
-  validate_string($iop::yum::iop_utils_repo_uri)
+  validate_string($iop::yum::iop_4_0_repo_uri)
+  validate_string($iop::yum::iop_4_1_repo_uri)
+  validate_string($iop::yum::iop_utils_1_0_repo_uri)
+  validate_string($iop::yum::iop_utils_1_1_repo_uri)
   validate_bool($iop::yum::gpg_check)
   validate_bool($iop::yum::ssl_verify)
   

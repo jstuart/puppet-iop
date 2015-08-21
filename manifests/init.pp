@@ -63,22 +63,46 @@ class iop (
     include iop::users::ambari
     
     # Add the IOP repo to Ambari
-    iop::ambari::repo { 'iop':
+    iop::ambari::repo { 'iop-4.0':
       repoid    => 'IOP-4.0',
-      reponame  => 'IOP',
-      baseurl   => $iop::yum::iop_repo_uri,
+      reponame  => 'IOP-4.0',
+      baseurl   => $iop::yum::iop_4_0_repo_uri,
       gpgcheck  => $iop::yum::gpg_check,
       sslverify => $iop::yum::ssl_verify,
+      iopvers   => ['4.0'],
       order     => '10'
     }
     
     # Add the IOP-UTIL repo to Ambari
-    iop::ambari::repo { 'iop-util':
+    iop::ambari::repo { 'iop-utils-1.0':
       repoid    => 'IOP-UTILS-1.0',
-      reponame  => 'IOP-UTILS',
-      baseurl   => $iop::yum::iop_utils_repo_uri,
+      reponame  => 'IOP-UTILS-1.0',
+      baseurl   => $iop::yum::iop_utils_1_0_repo_uri,
       gpgcheck  => $iop::yum::gpg_check,
       sslverify => $iop::yum::ssl_verify,
+      iopvers   => ['4.0'],
+      order     => '11'
+    }
+    
+    # Add the IOP repo to Ambari
+    iop::ambari::repo { 'iop-4.1':
+      repoid    => 'IOP-4.1',
+      reponame  => 'IOP-4.1',
+      baseurl   => $iop::yum::iop_4_1_repo_uri,
+      gpgcheck  => $iop::yum::gpg_check,
+      sslverify => $iop::yum::ssl_verify,
+      iopvers   => ['4.1'],
+      order     => '10'
+    }
+    
+    # Add the IOP-UTIL repo to Ambari
+    iop::ambari::repo { 'iop-utils-1.1':
+      repoid    => 'IOP-UTILS-1.1',
+      reponame  => 'IOP-UTILS-1.1',
+      baseurl   => $iop::yum::iop_utils_1_1_repo_uri,
+      gpgcheck  => $iop::yum::gpg_check,
+      sslverify => $iop::yum::ssl_verify,
+      iopvers   => ['4.1'],
       order     => '11'
     }
   }

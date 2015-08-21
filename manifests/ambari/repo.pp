@@ -70,6 +70,7 @@ define iop::ambari::repo(
   $baseurl   = undef,
   $gpgcheck  = true,
   $sslverify = true,
+  $iopvers   = ['4.1'],
   $order     = '20',
 ) {
   
@@ -92,33 +93,42 @@ define iop::ambari::repo(
   validate_string($baseurl)
   validate_bool($gpgcheck)
   validate_bool($sslverify)
+  validate_array($iopvers)
   validate_re($order, $iop::params::repo_order_regex, "Invalid order: \$order='${order}'; use a numeric value between 10 and 89")
   
   if $iop::ambari_server == true {
-    concat::fragment { "iop-server-repo-4_0-${name}":
-      target  => $iop::params::ambari_server_repoinfo_4_0,
-      content => template($iop::params::ambari_repoinfo_template_repo),
-      order   => $order,
+    if member($iopvers, '4.0') {
+      concat::fragment { "iop-server-repo-4_0-${name}":
+        target  => $iop::params::ambari_server_repoinfo_4_0,
+        content => template($iop::params::ambari_repoinfo_4_0_template_repo),
+        order   => $order,
+      }
     }
     
-    concat::fragment { "iop-server-repo-4_1-${name}":
-      target  => $iop::params::ambari_server_repoinfo_4_1,
-      content => template($iop::params::ambari_repoinfo_template_repo),
-      order   => $order,
+    if member($iopvers, '4.1') or empty($iopvers) {
+      concat::fragment { "iop-server-repo-4_1-${name}":
+        target  => $iop::params::ambari_server_repoinfo_4_1,
+        content => template($iop::params::ambari_repoinfo_4_1_template_repo),
+        order   => $order,
+      }
     }
   }
   
   if $iop::ambari_agent == true {
-    concat::fragment { "iop-agent-repo-4_0-${name}":
-      target  => $iop::params::ambari_agent_repoinfo_4_0,
-      content => template($iop::params::ambari_repoinfo_template_repo),
-      order   => $order,
+    if member($iopvers, '4.0') {
+      concat::fragment { "iop-agent-repo-4_0-${name}":
+        target  => $iop::params::ambari_agent_repoinfo_4_0,
+        content => template($iop::params::ambari_repoinfo_4_0_template_repo),
+        order   => $order,
+      }
     }
     
-    concat::fragment { "iop-agent-repo-4_1-${name}":
-      target  => $iop::params::ambari_agent_repoinfo_4_1,
-      content => template($iop::params::ambari_repoinfo_template_repo),
-      order   => $order,
+    if member($iopvers, '4.1') or empty($iopvers) {
+      concat::fragment { "iop-agent-repo-4_1-${name}":
+        target  => $iop::params::ambari_agent_repoinfo_4_1,
+        content => template($iop::params::ambari_repoinfo_4_1_template_repo),
+        order   => $order,
+      }
     }
   }
 }
