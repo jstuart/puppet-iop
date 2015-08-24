@@ -16,6 +16,7 @@ class iop::ambari::agent {
     mode    => '0755',
     content => template("${module_name}/etc/ambari-agent/conf/ambari-agent.ini.erb"),
     require => Package['ambari-agent'],
+    notify  => Service['ambari-agent'],
   }
 
   concat { $iop::params::ambari_agent_repoinfo_4_0:
