@@ -6,6 +6,9 @@ class iop::params {
   $gpg_key_hdp = '/etc/pki/rpm-gpg/RPM-GPG-KEY-HDP'
   $ambari_repo_file = '/etc/yum.repos.d/ambari.repo'
   
+  # User/Group related Params
+  $homedir_base = '/home'
+  
   # Ambari repo related params
   $ambari_repoinfo_4_0_template_begin = "${module_name}/var/lib/ambari-server/resources/stacks/BigInsights/4.0/repos/repoinfo.xml.begin.erb"
   $ambari_repoinfo_4_0_template_repo = "${module_name}/var/lib/ambari-server/resources/stacks/BigInsights/4.0/repos/repoinfo.xml.bodypart.erb"

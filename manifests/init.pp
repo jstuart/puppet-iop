@@ -22,12 +22,13 @@
 #     include iop
 #
 class iop (
-  $ambari_server      = false,
-  $ambari_agent       = false,
-  $ambari_server_fqdn = '',
-  $install_java       = true,
-  $java_packages      = ['java-1.7.0-openjdk-devel'],
-  $java_home          = '/usr/lib/jvm/java-1.7.0',
+  $ambari_server         = false,
+  $ambari_agent          = false,
+  $ambari_server_fqdn    = '',
+  $install_java          = true,
+  $java_packages         = ['java-1.7.0-openjdk-devel'],
+  $java_home             = '/usr/lib/jvm/java-1.7.0',
+  $provision_local_users = true,
 ) {
   validate_bool($iop::ambari_server)
   validate_bool($iop::ambari_agent)
@@ -45,6 +46,8 @@ class iop (
   }
   
   validate_absolute_path($iop::java_home)
+  
+  validate_bool($iop::provision_local_users)
 
   # Use Open JDK
   # ensure_packages(['java-1.7.0-openjdk', 'java-1.7.0-openjdk-devel'])
@@ -55,6 +58,10 @@ class iop (
   
   if $iop::install_java == true {
     ensure_packages($java_packages)
+  }
+  
+  if $iop::provision_local_users == true {
+    include iop::localusers
   }
 
   if $iop::ambari_server == true or $iop::ambari_agent == true {
