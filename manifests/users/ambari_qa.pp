@@ -1,8 +1,8 @@
 # Ambari QA user
 class iop::users::ambari_qa (
-  $username     = 'ambari_qa',
+  $username     = 'ambari-qa',
   $uid          = '1210',
-  $home         = '/home/ambari_qa',
+  $home         = '/home/ambari-qa',
   $users_groups = ['users'],
 ) {
   # Requires Hadoop Group
@@ -11,7 +11,7 @@ class iop::users::ambari_qa (
   # Ambari QA:
   #   No named group
   #   Primary group is 'hadoop'
-  iop::luser { 'iop-user-ambari_qa':
+  iop::luser { 'iop-user-ambari-qa':
     username     => $iop::users::ambari_qa::username,
     uid          => $iop::users::ambari_qa::uid,
     create_group => false,
